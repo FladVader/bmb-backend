@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000;
 const routes = require('./routes');
 const cors = require('cors');
 
-var poolHandler = require('./poolHandler.js')
+var poolHandler = require('./poolhandler.js')
 poolHandler.init();
 app.use(cors({
     origin: '*'
