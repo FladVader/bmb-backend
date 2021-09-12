@@ -1,4 +1,4 @@
-const poolHandler = require('./poolHandler.js');
+const poolHandler = require('./poolhandler.js');
 
 const getIdiot = async (client) => {
     let attatched;
