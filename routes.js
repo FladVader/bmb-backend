@@ -13,7 +13,7 @@ router.get('/idiot', async function (req, res) {
         res.json(result);
     } catch (error) {
 
-        console.log(error)
+
         res.json(error); 
     }
 })
@@ -24,7 +24,7 @@ router.get('/never', async function (req, res) {
         res.json(result);
     } catch (error) {
 
-        console.log(error)
+
         res.json(error); 
     }
 })
@@ -35,7 +35,7 @@ router.get('/isalive', async function (req, res) {
         res.json(result);
     } catch (error) {
 
-        console.log(error)
+
         res.json(error); 
     }
 })
@@ -46,7 +46,7 @@ router.get('/likely', async function (req, res) {
         res.json(result);
     } catch (error) {
 
-        console.log(error)
+
         res.json(error); 
     }
 })
@@ -55,10 +55,9 @@ router.get('/', async function (req, res) {
     try {
         const result = await db.getAllQuestions();
         res.json(result);
-        console.log(result)
     } catch (error) {
 
-        console.log(error)
+
         res.json(error); 
     }
 })
@@ -69,7 +68,7 @@ router.get('/types', async function (req, res) {
         res.json(result);
     } catch (error) {
 
-        console.log(error)
+
         res.json(error); 
     }
 })
@@ -81,7 +80,7 @@ router.get('/randomimg', async function (req, res) {
         console.log(result)
     } catch (error) {
 
-        console.log(error)
+
         res.json(error); 
     }
 })
@@ -93,7 +92,6 @@ router.post('/1', async function (req, res){
         res.json(result);
     } catch (error) {
 
-        console.log(error) 
         res.json(error); 
     }
 })
@@ -105,7 +103,7 @@ router.post('/2', async function (req, res){
         res.json(result);
     } catch (error) {
 
-        console.log(error);
+
         res.json(error); 
     }
 })
@@ -117,7 +115,7 @@ router.post('/3', async function (req, res){
         res.json(result);
     } catch (error) {
         res.json(error); 
-        console.log(error) 
+
     }
 })
 
@@ -128,7 +126,7 @@ router.post('/4', async function (req, res){
         res.json(result);
     } catch (error) {
 
-        console.log(error)
+
         res.json(error) 
     }
 })
@@ -140,7 +138,7 @@ router.post('/randomimg', async function (req, res){
         res.json(result);
     } catch (error) {
 
-        console.log(error)
+
         res.json(error) 
     }
 })
