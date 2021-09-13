@@ -116,6 +116,35 @@ const getTypes = async (client) => {
     });
 };
 
+const getReally = async (client) => {
+    let attatched;
+
+    ({ client, attatched } = await poolHandler.checkClient(client, attatched));
+
+    return new Promise((resolve, reject) => {
+
+        let sql = 'SELECT type, a.id, name, simple, statement, img1, answer, img2 from bmb_really AS a ' +
+            'INNER JOIN bmb_type AS b ON a.type = b.id';
+
+        client.query(sql)
+            .then((result) => {
+
+                resolve(result.rows)
+            })
+            .catch((err) => {
+                console.log("getReallyError: " + err)
+
+            })
+            .finally(() => {
+                if (attatched) {
+                    client.release(true);
+                }
+            });
+
+    });
+
+};
+
 const getAllQuestions = async (client) => {
 
     let attatched;
@@ -126,10 +155,12 @@ const getAllQuestions = async (client) => {
 
         const neverPromise = getNever(client)
         const idiotPromise = getIdiot(client);
-        const isAlivePromise = getIsAlive(client);
-        const likelyPromise = getLikely(client);
 
-        Promise.all([neverPromise, idiotPromise, isAlivePromise, likelyPromise])
+        const likelyPromise = getLikely(client);
+        const isAlivePromise = getIsAlive(client);
+        const reallyPromise = getReally(client);
+
+        Promise.all([neverPromise, idiotPromise, isAlivePromise, likelyPromise, reallyPromise])
             .then((results) => {
 
                 resolve(results);
@@ -336,6 +367,7 @@ module.exports = {
     getLikely,
     getAllQuestions,
     getTypes,
+    getReally,
     addNever,
     addLikely,
     addIdiot,

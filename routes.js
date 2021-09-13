@@ -85,6 +85,18 @@ router.get('/randomimg', async function (req, res) {
     }
 })
 
+router.get('/really', async function (req, res) {
+    try {
+        const result = await db.getReally();
+        res.json(result);
+        console.log(result)
+    } catch (error) {
+
+
+        res.json(error); 
+    }
+})
+
 router.post('/1', async function (req, res){
 
     try {
