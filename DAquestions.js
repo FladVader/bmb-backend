@@ -291,6 +291,30 @@ const addIdiot = async (data, client) => {
     });
 };
 
+const addReally = async (data, client) => {
+    let attatched;
+    ({ client, attatched } = await poolHandler.checkClient(client, attatched));
+
+    let sql = 'INSERT INTO bmb_really (statement, img1, answer, img2) ' +
+        'values ($1, $2, $3, $4) RETURNING id;';
+
+    return new Promise((resolve, reject) => {
+
+        client.query(sql, [data.statement, data.img1, data.answer, data.img2])
+            .then((result) => {
+                resolve(result.rows[0])
+            })
+            .catch((err) => {
+                console.log("addReallyError: " + err)
+            })
+            .finally(() => {
+                if (attatched) {
+                    client.release(true);
+                }
+            });
+    });
+};
+
 const addIsalive = async (data, client) => {
     let attatched;
     ({ client, attatched } = await poolHandler.checkClient(client, attatched));
@@ -373,5 +397,6 @@ module.exports = {
     addIdiot,
     addIsalive,
     getRandomImages,
-    addRandomImg
+    addRandomImg,
+    addReally
 }
