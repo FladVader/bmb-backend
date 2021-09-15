@@ -85,6 +85,18 @@ router.get('/randomimg', async function (req, res) {
     }
 })
 
+router.get('/buttonnames', async function (req, res) {
+    try {
+        const result = await db.getButtonNames();
+        res.json(result);
+        console.log(result)
+    } catch (error) {
+
+
+        res.json(error); 
+    }
+})
+
 router.get('/really', async function (req, res) {
     try {
         const result = await db.getReally();

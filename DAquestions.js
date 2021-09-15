@@ -383,6 +383,27 @@ const getRandomImages = async (client) => {
     });
 };
 
+const getButtonNames = async (client) => {
+    let attatched;
+    ({ client, attatched } = await poolHandler.checkClient(client, attatched));
+
+    return new Promise((resolve, reject) => {
+        let sql = 'SELECT name from bmb_btn AS b';
+        client.query(sql)
+            .then((result) => {
+                resolve(result.rows)
+            })
+            .catch((err) => {
+                console.log("getRandomImagesError: " + err)
+            })
+            .finally(() => {
+                if (attatched) {
+                    client.release(true);
+                }
+            });
+    });
+};
+
 
 module.exports = {
     getIdiot,
@@ -398,5 +419,6 @@ module.exports = {
     addIsalive,
     getRandomImages,
     addRandomImg,
-    addReally
+    addReally,
+    getButtonNames
 }
