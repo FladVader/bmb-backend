@@ -7,7 +7,6 @@ let pool;
 const init = () => {
 
     pool = new Pool(config);
-
 };
 
 const getConnection = async () => {

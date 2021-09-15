@@ -1,9 +1,9 @@
 module.exports = {
-    user: 'ysbibvle',
-    host: 'hattie.db.elephantsql.com',
-    database: 'ysbibvle',
-    password: '7wD-LX4KUqbOCF9XOiHe4Q4xKRt0VZaE',
-    port: 5432
+    user: process.env.PGUSER,
+    host: process.env.PGHOST,
+    database: process.env.PGDATABASE,
+    password: process.env.PGPASSWORD,
+    port: process.env.PGPORT
 }
 
 
