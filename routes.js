@@ -179,4 +179,16 @@ router.post('/randomimg', async function (req, res){
     }
 })
 
+router.post('/buttonname', async function (req, res){
+
+    try {
+        const result = await db.addButtonName(req.body);
+        res.json(result);
+    } catch (error) {
+
+
+        res.json(error) 
+    }
+})
+
 module.exports = router;

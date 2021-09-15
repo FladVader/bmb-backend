@@ -362,6 +362,29 @@ const addRandomImg = async (data, client) => {
     });
 };
 
+const addButtonName = async (data, client) => {
+    let attatched;
+    ({ client, attatched } = await poolHandler.checkClient(client, attatched));
+
+    let sql = 'INSERT INTO bmb_btn (name) values ($1) RETURNING id;';
+
+    return new Promise((resolve, reject) => {
+
+        client.query(sql, [data.name])
+            .then((result) => {
+                resolve(result.rows[0])
+            })
+            .catch((err) => {
+                console.log("addButtonNameError: " + err)
+            })
+            .finally(() => {
+                if (attatched) {
+                    client.release(true);
+                }
+            });
+    });
+};
+
 const getRandomImages = async (client) => {
     let attatched;
     ({ client, attatched } = await poolHandler.checkClient(client, attatched));
@@ -420,5 +443,6 @@ module.exports = {
     getRandomImages,
     addRandomImg,
     addReally,
-    getButtonNames
+    getButtonNames,
+    addButtonName
 }
