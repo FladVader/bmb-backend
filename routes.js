@@ -167,6 +167,18 @@ router.post('/6', async function (req, res){
     }
 })
 
+router.post('/8', async function (req, res){
+
+    try {
+        const result = await db.addUnpopular(req.body);
+        res.json(result);
+    } catch (error) {
+
+
+        res.json(error) 
+    }
+})
+
 router.post('/randomimg', async function (req, res){
 
     try {

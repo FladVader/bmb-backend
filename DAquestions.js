@@ -95,6 +95,28 @@ const getLikely = async (client) => {
     });
 };
 
+const getUnpopular = async (client) => {
+    let attatched;
+    ({ client, attatched } = await poolHandler.checkClient(client, attatched));
+
+    return new Promise((resolve, reject) => {
+        let sql = 'SELECT type, a.id, name, img1, simple, statement from bmb_unpopular AS a ' +
+            'INNER JOIN bmb_type AS b ON a.type = b.id';
+        client.query(sql)
+            .then((result) => {
+                resolve(result.rows)
+            })
+            .catch((err) => {
+                console.log("getUnpopularError: " + err)
+            })
+            .finally(() => {
+                if (attatched) {
+                    client.release(true);
+                }
+            });
+    });
+};
+
 const getTypes = async (client) => {
     let attatched;
     ({ client, attatched } = await poolHandler.checkClient(client, attatched));
@@ -159,8 +181,9 @@ const getAllQuestions = async (client) => {
         const likelyPromise = getLikely(client);
         const isAlivePromise = getIsAlive(client);
         const reallyPromise = getReally(client);
+        const unpopularPromise = getUnpopular(client);
 
-        Promise.all([neverPromise, idiotPromise, isAlivePromise, likelyPromise, reallyPromise])
+        Promise.all([neverPromise, idiotPromise, isAlivePromise, likelyPromise, reallyPromise, unpopularPromise])
             .then((results) => {
 
                 resolve(results);
@@ -212,6 +235,50 @@ const addNever = async (data, client) => {
                 })
                 .catch((err) => {
                     console.log("addNeverError: " + err)
+                })
+                .finally(() => {
+                    if (attatched) {
+                        client.release(true);
+                    }
+                });
+        });
+
+    }
+};
+
+const addUnpopular = async (data, client) => {
+    let attatched;
+    ({ client, attatched } = await poolHandler.checkClient(client, attatched));
+
+    if (data.img1) {
+        let sql = 'INSERT INTO bmb_unpopular (statement, img1) values ($1, $2) RETURNING id;';
+
+        return new Promise((resolve, reject) => {
+
+            client.query(sql, [data.statement, data.img1])
+                .then((result) => {
+                    resolve(result.rows[0])
+                })
+                .catch((err) => {
+                    console.log("addUnpopularError: " + err)
+                })
+                .finally(() => {
+                    if (attatched) {
+                        client.release(true);
+                    }
+                });
+        });
+    }else {
+        let sql = 'INSERT INTO bmb_unpopular (statement) values ($1) RETURNING id;';
+
+        return new Promise((resolve, reject) => {
+
+            client.query(sql, [data.statement])
+                .then((result) => {
+                    resolve(result.rows[0])
+                })
+                .catch((err) => {
+                    console.log("addUnpopularError: " + err)
                 })
                 .finally(() => {
                     if (attatched) {
@@ -406,6 +473,7 @@ const getRandomImages = async (client) => {
     });
 };
 
+
 const getButtonNames = async (client) => {
     let attatched;
     ({ client, attatched } = await poolHandler.checkClient(client, attatched));
@@ -444,5 +512,7 @@ module.exports = {
     addRandomImg,
     addReally,
     getButtonNames,
-    addButtonName
+    addButtonName,
+    getUnpopular,
+    addUnpopular
 }
